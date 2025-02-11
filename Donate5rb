@@ -1,0 +1,9 @@
+local MarketplaceService = game:GetService("MarketplaceService")
+local player = game.Players.LocalPlayer
+
+local GAMEPASS_ID = 909103171 -- Thay bằng ID gamepass của bạn
+local buyButton = script.Parent
+
+buyButton.MouseButton1Click:Connect(function()
+    MarketplaceService:PromptGamePassPurchase(player, GAMEPASS_ID)
+end)
