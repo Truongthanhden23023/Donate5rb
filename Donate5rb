@@ -1,12 +1,26 @@
-local button = script.Parent  -- Lấy nút
-local gamePassID = 909103171  -- Thay bằng ID Game Pass của bạn
+local player = game.Players.LocalPlayer
+local gamePassID = 909103171 -- ID gamepass của bạn
 
--- Lắng nghe sự kiện nhấn nút
-button.MouseButton1Click:Connect(function()
-    -- Kiểm tra nếu người chơi chưa sở hữu Game Pass
-    local player = game.Players.LocalPlayer
-    local marketplace = game:GetService("MarketplaceService")
-    
-    -- Hiển thị bảng mua Game Pass
-    marketplace:PromptGamePassPurchase(player, gamePassID)
+-- Tạo ScreenGui để hiển thị kết quả
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local textLabel = Instance.new("TextLabel")
+textLabel.Parent = screenGui
+textLabel.Size = UDim2.new(0, 300, 0, 50)
+textLabel.Position = UDim2.new(0.5, -150, 0.5, -25)
+textLabel.Text = "Checking game pass..."
+textLabel.TextSize = 20
+textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+textLabel.BackgroundTransparency = 1
+
+-- Kiểm tra gamepass sau khi người chơi đã vào game
+player.CharacterAdded:Connect(function()
+    local hasGamePass = player:HasGamePass(gamePassID)
+
+    if hasGamePass then
+        textLabel.Text = "You have the game pass!"
+    else
+        textLabel.Text = "You don't have the game pass."
+    end
 end)
